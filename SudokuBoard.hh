@@ -1,4 +1,14 @@
 
+/*
+ * SudokuBoard.hh
+ *
+ *  Created on: Oct 26, 2013
+ *      Author: Brady
+ */
+
+#ifndef SUDOKUBOARD_HH_
+#define SUDOKUBOARD_HH_
+
 #include <vector>
 
 #define DEFAULT_ROWS 9
@@ -7,6 +17,7 @@ class SudokuBoard
 {
 public:
   // Once the SudokuBoard size has been set, it cant be changed
+  // The rows must be a factor of 3
   SudokuBoard(int rows = DEFAULT_ROWS);
 
   // Get the value at the position specified
@@ -37,3 +48,5 @@ private:
   typedef std::vector<int> RowT;
   std::vector<std::vector<int> > board_;
 };
+
+#endif // SUDOKUBOARD_HH_
