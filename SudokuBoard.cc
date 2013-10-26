@@ -70,3 +70,24 @@ void SudokuBoard::resetBoard()
   }
 }
 
+void SudokuBoard::printBoard() const
+{
+  for(int row = 0; row < numRows_; ++row)
+  {
+    const RowT &boardRow = board_[row];
+    for(int col = 0; col < numRows_; ++col)
+    {
+      cout << boardRow[col] << " ";
+      if(col == 2 || col == 5)
+      {
+    	  cout << "| ";
+      }
+    }
+    if(row == 2 || row == 5)
+    {
+      cout << "\n------+-------+------";
+    }
+    cout << endl;
+  }
+
+}
