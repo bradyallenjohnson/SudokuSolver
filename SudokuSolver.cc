@@ -102,6 +102,30 @@ bool SudokuSolver::isBoardValid(SudokuBoard &board)
 
 bool SudokuSolver::solve(SudokuBoard &board)
 {
+  vector<int> rowValues(board.getNumRows(), 0);
+  vector<vector<int> > colValues(board.getNumRows());
+  vector<vector<int> > squareValues(board.getNumRows());
+
+  vector<bool> rowValuesHash(board.getNumRows(), false);
+  vector<vector<bool> > colValuesHash(board.getNumRows());
+  vector<vector<bool> > squareValuesHash(board.getNumRows());
+
+  for(int row = 0; row < board.getNumRows(); ++row)
+  {
+    board.getRowData(row, rowValues);
+    boardDataToHash(rowValues, rowValuesHash);
+  }
+
   return false;
 }
 
+void SudokuSolver::boardDataToHash(vector<int> &rowValues, vector<bool> &rowValuesHash)
+{
+  for(int i = 0; i < rowValues.size(); ++i)
+  {
+    if(rowValues[i] != 0)
+    {
+      rowValuesHash[rowValues[i]] = true;
+    }
+  }
+}

@@ -105,8 +105,8 @@ void SudokuBoard::getRowData(int row, std::vector<int> &rowData) const
     return;
   }
 
-  const RowT &row = board_[row];
-  copy(row.begin(), row.end(), rowData.begin());
+  const RowT &rowValues = board_[row];
+  copy(rowValues.begin(), rowValues.end(), rowData.begin());
 }
 
 void SudokuBoard::getColData(int col, std::vector<int> &colData) const
