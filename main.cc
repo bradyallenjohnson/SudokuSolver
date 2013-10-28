@@ -37,44 +37,44 @@ int main(int argc, char **argv)
   //     0 1 2 | 3 4 5 | 6 7 8
   //
 
-  board.setPosition(0, 0, 5);
-  board.setPosition(0, 1, 3);
-  board.setPosition(0, 4, 7);
+  board.setValue(0, 0, 5);
+  board.setValue(0, 1, 3);
+  board.setValue(0, 4, 7);
 
-  board.setPosition(1, 0, 6);
-  board.setPosition(1, 3, 1);
-  board.setPosition(1, 4, 9);
-  board.setPosition(1, 5, 5);
+  board.setValue(1, 0, 6);
+  board.setValue(1, 3, 1);
+  board.setValue(1, 4, 9);
+  board.setValue(1, 5, 5);
 
-  board.setPosition(2, 1, 9);
-  board.setPosition(2, 2, 8);
-  board.setPosition(2, 7, 6);
+  board.setValue(2, 1, 9);
+  board.setValue(2, 2, 8);
+  board.setValue(2, 7, 6);
 
-  board.setPosition(3, 0, 8);
-  board.setPosition(3, 4, 6);
-  board.setPosition(3, 8, 3);
+  board.setValue(3, 0, 8);
+  board.setValue(3, 4, 6);
+  board.setValue(3, 8, 3);
 
-  board.setPosition(4, 0, 4);
-  board.setPosition(4, 3, 8);
-  board.setPosition(4, 5, 3);
-  board.setPosition(4, 8, 1);
+  board.setValue(4, 0, 4);
+  board.setValue(4, 3, 8);
+  board.setValue(4, 5, 3);
+  board.setValue(4, 8, 1);
 
-  board.setPosition(5, 0, 7);
-  board.setPosition(5, 4, 2);
-  board.setPosition(5, 8, 6);
+  board.setValue(5, 0, 7);
+  board.setValue(5, 4, 2);
+  board.setValue(5, 8, 6);
 
-  board.setPosition(6, 1, 6);
-  board.setPosition(6, 6, 2);
-  board.setPosition(6, 7, 8);
+  board.setValue(6, 1, 6);
+  board.setValue(6, 6, 2);
+  board.setValue(6, 7, 8);
 
-  board.setPosition(7, 3, 4);
-  board.setPosition(7, 4, 1);
-  board.setPosition(7, 5, 9);
-  board.setPosition(7, 8, 5);
+  board.setValue(7, 3, 4);
+  board.setValue(7, 4, 1);
+  board.setValue(7, 5, 9);
+  board.setValue(7, 8, 5);
 
-  board.setPosition(8, 4, 8);
-  board.setPosition(8, 7, 7);
-  board.setPosition(8, 8, 9);
+  board.setValue(8, 4, 8);
+  board.setValue(8, 7, 7);
+  board.setValue(8, 8, 9);
 
   cout << "Sudoku input" << endl;
   board.printBoard();

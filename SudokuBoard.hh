@@ -24,10 +24,16 @@ public:
   // A value of 0 means the position is not set
   // A negative value means an error occurred, most likely invalid row or col
   // A valid value will be [1..Rows]
-  int getPosition(int row, int col) const;
+  int getValue(int row, int col) const;
 
   // Set the value at the position specified
-  void setPosition(int row, int col, int value);
+  void setValue(int row, int col, int value);
+
+  // Given the position, return the entire row, col, or square in a vector
+  void getRowData(int row, std::vector<int> &rowData) const;
+  void getColData(int col, std::vector<int> &colData) const;
+  // Given any position in a square, return the square data
+  void getSquareData(int row, int col, std::vector<int> &squareData) const;
 
   // Get the number of rows, which will always be
   // the same as the number of columns

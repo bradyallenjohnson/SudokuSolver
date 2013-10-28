@@ -7,6 +7,7 @@
  */
 
 #include <iostream>
+#include <algorithm>
 
 #include "SudokuBoard.hh"
 
@@ -56,7 +57,7 @@ bool SudokuBoard::isRangeValid(int row, int col) const
   return true;
 }
 
-int SudokuBoard::getPosition(int row, int col) const
+int SudokuBoard::getValue(int row, int col) const
 {
   if(!isRangeValid(row, col))
   {
@@ -68,7 +69,7 @@ int SudokuBoard::getPosition(int row, int col) const
   return boardRow[col];
 }
 
-void SudokuBoard::setPosition(int row, int col, int value)
+void SudokuBoard::setValue(int row, int col, int value)
 {
   if(!isRangeValid(row, col))
   {
@@ -93,6 +94,62 @@ void SudokuBoard::resetBoard()
     for(int col = 0; col < numRows_; ++col)
     {
       boardRow[col] = 0;
+    }
+  }
+}
+
+void SudokuBoard::getRowData(int row, std::vector<int> &rowData) const
+{
+  if(!isRangeValid(row, 0))
+  {
+    return;
+  }
+
+  const RowT &row = board_[row];
+  copy(row.begin(), row.end(), rowData.begin());
+}
+
+void SudokuBoard::getColData(int col, std::vector<int> &colData) const
+{
+  if(!isRangeValid(0, col))
+  {
+    return;
+  }
+
+  for(int row = 0; row < numRows_; ++row)
+  {
+    colData[row] = getValue(row, col);
+  }
+}
+
+// Given any position in a square, return the square
+// data in the given vector, one row at a time
+void SudokuBoard::getSquareData(int row, int col, std::vector<int> &squareData) const
+{
+  if(!isRangeValid(row, col))
+  {
+    return;
+  }
+
+
+  // TODO for now assuming 9x9 board
+
+  int rowStart(0);
+  if(row < 3)      { rowStart = 0; }
+  else if(row < 6) { rowStart = 3; }
+  else             { rowStart = 6; }
+
+  int colStart(0);
+  if(col < 3)      { colStart = 0; }
+  else if(col < 6) { colStart = 3; }
+  else             { colStart = 6; }
+
+  int index(0);
+  for(int r = rowStart; r < rowStart+3; ++r)
+  {
+    for(int c = colStart; c < colStart+3; ++c)
+    {
+      squareData[row] = getValue(row, col);
     }
   }
 }
