@@ -11,14 +11,15 @@
 
 #include <vector>
 
-#define DEFAULT_ROWS 9
+#define DEFAULT_ROWS 3
 
 class SudokuBoard
 {
 public:
   // Once the SudokuBoard size has been set, it cant be changed
-  // The rows must be a factor of 3
-  SudokuBoard(int rows = DEFAULT_ROWS);
+  // The number of rows is squareSize*squareSize
+  // The number of squares is numRows
+  SudokuBoard(int numRows = DEFAULT_ROWS);
 
   // Get the value at the position specified
   // A value of 0 means the position is not set
@@ -38,6 +39,7 @@ public:
   // Get the number of rows, which will always be
   // the same as the number of columns
   inline int getNumRows() const { return numRows_; }
+  inline int getSquareSize() const { return squareSize_; }
 
   // Reset the entire board, setting all positions to 0
   // This method is called by the constructor
@@ -48,6 +50,7 @@ public:
 
 private:
   int numRows_;
+  int squareSize_;
 
   bool isRangeValid(int row, int col) const;
 

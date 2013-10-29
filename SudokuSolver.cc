@@ -110,10 +110,18 @@ bool SudokuSolver::solve(SudokuBoard &board)
   vector<vector<bool> > colValuesHash(board.getNumRows());
   vector<vector<bool> > squareValuesHash(board.getNumRows());
 
+  return solveRecursive(board);
+}
+
+bool SudokuSolver::solveRecursive(SudokuBoard &board)
+{
   for(int row = 0; row < board.getNumRows(); ++row)
   {
+/*
     board.getRowData(row, rowValues);
     boardDataToHash(rowValues, rowValuesHash);
+*/
+    // TODO finish this
   }
 
   return false;
@@ -129,3 +137,19 @@ void SudokuSolver::boardDataToHash(vector<int> &rowValues, vector<bool> &rowValu
     }
   }
 }
+
+bool SudokuSolver::rowHasValue(int row, int value)
+{
+  return false;
+}
+
+bool SudokuSolver::colHasValue(int col, int value)
+{
+  return false;
+}
+
+bool SudokuSolver::squareHasValue(int row, int col, int value)
+{
+  return false;
+}
+

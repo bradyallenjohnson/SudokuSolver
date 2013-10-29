@@ -23,7 +23,12 @@ public:
   bool solve(SudokuBoard &board);
 
 private:
+  bool solveRecursive(SudokuBoard &board);
+
   void boardDataToHash(std::vector<int> &data, std::vector<bool> &hash);
+  bool rowHasValue(int row, int value);
+  bool colHasValue(int col, int value);
+  bool squareHasValue(int row, int col, int value);
 };
 
 #endif /* SUDOKUSOLVER_HH_ */

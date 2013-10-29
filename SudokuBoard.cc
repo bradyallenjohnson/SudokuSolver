@@ -8,25 +8,27 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 #include "SudokuBoard.hh"
 
 using namespace std;
 
-SudokuBoard::SudokuBoard(int rows /*= DEFAULT_ROWS*/) :
-    numRows_(rows)
+SudokuBoard::SudokuBoard(int numRows /*= DEFAULT_ROWS*/) :
+    numRows_(numRows)
 {
-  if(rows%3 != 0)
+  squareSize_ = (int) sqrt((double) numRows);
+  if(squareSize_*squareSize_ != numRows)
   {
-    cout << "Invalid row specified, must be a factor of 3" << endl;
+    cout << "Invalid row size specified" << endl;
     // TODO how to handle the error??
   }
 
-  board_.resize(rows);
-  for(int r = 0; r < rows; ++r)
+  board_.resize(numRows_);
+  for(int r = 0; r < numRows_; ++r)
   {
     RowT &boardRow = board_[r];
-    boardRow.resize(rows);
+    boardRow.resize(numRows_);
   }
 
   resetBoard();
@@ -163,6 +165,7 @@ void SudokuBoard::printBoard() const
     const RowT &boardRow = board_[row];
     for(int col = 0; col < numRows_; ++col)
     {
+        // TODO for now assuming 9x9 board
       cout << boardRow[col] << " ";
       if(col == 2 || col == 5)
       {
