@@ -21,7 +21,7 @@ SudokuBoard::SudokuBoard(int numRows /*= DEFAULT_ROWS*/) :
   if(squareSize_*squareSize_ != numRows)
   {
     cout << "Invalid row size specified" << endl;
-    // TODO how to handle the error??
+    // TODO consider throwing an exception
   }
 
   board_.resize(numRows_);
@@ -133,18 +133,25 @@ void SudokuBoard::getSquareData(int row, int col, std::vector<int> &squareData) 
     return;
   }
 
+  int rowStart;
+  for(int r = squareSize_; r <= numRows_; r += squareSize_)
+  {
+    if(row < r)
+    {
+      rowStart = r;
+      break;
+    }
+  }
 
-  // TODO for now assuming 9x9 board
-
-  int rowStart(0);
-  if(row < 3)      { rowStart = 0; }
-  else if(row < 6) { rowStart = 3; }
-  else             { rowStart = 6; }
-
-  int colStart(0);
-  if(col < 3)      { colStart = 0; }
-  else if(col < 6) { colStart = 3; }
-  else             { colStart = 6; }
+  int colStart;
+  for(int c = squareSize_; c <= numRows_; c += squareSize_)
+  {
+    if(col < c)
+    {
+      colStart = c;
+      break;
+    }
+  }
 
   int index(0);
   for(int r = rowStart; r < rowStart+3; ++r)
@@ -165,14 +172,14 @@ void SudokuBoard::printBoard() const
     const RowT &boardRow = board_[row];
     for(int col = 0; col < numRows_; ++col)
     {
-        // TODO for now assuming 9x9 board
       cout << boardRow[col] << " ";
-      if(col == 2 || col == 5)
+      if((col+1)%squareSize_ == 0 && (col+1) < numRows_)
       {
     	  cout << "| ";
       }
     }
-    if(row == 2 || row == 5)
+
+    if((row+1)%squareSize_ == 0 && (row+1) < numRows_)
     {
       cout << "\n------+-------+------";
     }
