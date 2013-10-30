@@ -34,7 +34,7 @@ int main(int argc, char **argv)
   //   +----------------------
   //     0 1 2 | 3 4 5 | 6 7 8
   //
-/*
+/**/
   SudokuBoard board(9);
 
   board.setValue(0, 0, 5);
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
   board.setValue(8, 4, 8);
   board.setValue(8, 7, 7);
   board.setValue(8, 8, 9);
-*/
+/**/
   //
   // Sample input        Answer
   //     0 1 | 2 3
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
   //   +-----+-----     -----+-----
   // 2 | x 1 | x x       2 1 | 4 3
   // 3 | 4 x | x 1       4 3 | 2 1
-
+/*
   SudokuBoard board(4);
 
   board.setValue(0, 0, 1);
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 
   board.setValue(3, 0, 4);
   board.setValue(3, 3, 1);
-
+*/
 
   cout << "Sudoku input" << endl;
   board.printBoard();

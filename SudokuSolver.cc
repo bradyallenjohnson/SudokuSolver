@@ -108,43 +108,54 @@ bool SudokuSolver::solve()
 // Recursively solve the Sudoku
 bool SudokuSolver::solveRecursive(int row, int col)
 {
+  cout << "solveRecursive [" << row << ", " << col << "]" << endl;
+
   // Check if we're at the end of a row, or if we've completed the Sudoku
   if(col == board_.getBoardSize())
   {
     // If we're at the end of a row, start at the next row
     col = 0;
-    if(row == board_.getBoardSize())
+    if(row == board_.getBoardSize()-1)
     {
       // Then we've finished and a solution has been found
+      cout << "solveRecursive Board finished" << endl;
       return true;
     }
     else
     {
       ++row;
     }
+    cout << "solveRecursive end of row, reset coords [" << row << ", " << col << "]" << endl;
   }
 
-  // Skip empty elements
-  if(board_.getValue(row, col) == 0)
+  // Skip already filled-in elements
+  if(board_.getValue(row, col) != 0)
   {
+    cout << "solveRecursive [" << row << ", " << col << "] skipping filled-in value" << endl;
+
     return solveRecursive(row, col+1);
   }
 
-  for(int value = 1; value < board_.getBoardSize(); ++value)
+  for(int value = 1; value <= board_.getBoardSize(); ++value)
   {
     if(valueIsValid(row, col, value))
     {
-        board_.setValue(row, col, value);
-        return solveRecursive(row, col++);
-    }
-    else
-    {
-      return false;
+      cout << "solveRecursive [" << row << ", " << col << "] valid value " << value << endl;
+
+      board_.setValue(row, col, value);
+
+      // If the value is valid, recurse down, else loop to the next value
+      if(solveRecursive(row, col+1))
+      {
+        return true;
+      }
+
+      board_.setValue(row, col, 0);
     }
   }
 
-  // TODO finish this
-
+  cout << "solveRecursive end [" << row << ", " << col << "]" << endl;
+  board_.setValue(row, col, 0);
   return false;
 }
 
@@ -160,7 +171,7 @@ bool SudokuSolver::valueIsValid(int row, int col, int value)
     return false;
   }
 
-  if(!squareHasValue(row, col, value))
+  if(squareHasValue(row, col, value))
   {
     return false;
   }
@@ -170,16 +181,66 @@ bool SudokuSolver::valueIsValid(int row, int col, int value)
 
 bool SudokuSolver::rowHasValue(int row, int value)
 {
+  for(int i = 0; i < board_.getBoardSize(); ++i)
+  {
+    if(board_.getValue(row, i) == value)
+    {
+      return true;
+    }
+  }
+
   return false;
 }
 
 bool SudokuSolver::colHasValue(int col, int value)
 {
+  for(int i = 0; i < board_.getBoardSize(); ++i)
+  {
+    if(board_.getValue(i, col) == value)
+    {
+      return true;
+    }
+  }
+
   return false;
 }
 
 bool SudokuSolver::squareHasValue(int row, int col, int value)
 {
+  // TODO consider storing the rowStart and colStart in a hash table
+  //      where the offset will return the rowStart
+
+  int rowStart;
+  for(int r = board_.getSquareSize(); r <= board_.getBoardSize(); r += board_.getSquareSize())
+  {
+    if(row < r)
+    {
+      rowStart = r;
+      break;
+    }
+  }
+
+  int colStart;
+  for(int c = board_.getSquareSize(); c <= board_.getBoardSize(); c += board_.getSquareSize())
+  {
+    if(col < c)
+    {
+      colStart = c;
+      break;
+    }
+  }
+
+  for(int r = rowStart; r < rowStart+board_.getSquareSize(); ++r)
+  {
+    for(int c = colStart; c < colStart+board_.getSquareSize(); ++c)
+    {
+      if(board_.getValue(row, col) == value)
+      {
+        return true;
+      }
+    }
+  }
+
   return false;
 }
 

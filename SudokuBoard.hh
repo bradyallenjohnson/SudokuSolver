@@ -30,12 +30,6 @@ public:
   // Set the value at the position specified
   void setValue(int row, int col, int value);
 
-  // Given the position, return the entire row, col, or square in a vector
-  void getRowData(int row, std::vector<int> &rowData) const;
-  void getColData(int col, std::vector<int> &colData) const;
-  // Given any position in a square, return the square data
-  void getSquareData(int row, int col, std::vector<int> &squareData) const;
-
   // Get the number of rows, which will always be
   // the same as the number of columns
   inline int getBoardSize() const { return boardSize_; }
