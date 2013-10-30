@@ -14,21 +14,21 @@
 
 using namespace std;
 
-SudokuBoard::SudokuBoard(int numRows /*= DEFAULT_ROWS*/) :
-    numRows_(numRows)
+SudokuBoard::SudokuBoard(int boardSize /*= DEFAULT_BOARD_SIZE*/) :
+    boardSize_(boardSize)
 {
-  squareSize_ = (int) sqrt((double) numRows);
-  if(squareSize_*squareSize_ != numRows)
+  squareSize_ = (int) sqrt((double) boardSize);
+  if(squareSize_*squareSize_ != boardSize)
   {
     cout << "Invalid row size specified" << endl;
     // TODO consider throwing an exception
   }
 
-  board_.resize(numRows_);
-  for(int r = 0; r < numRows_; ++r)
+  board_.resize(boardSize_);
+  for(int r = 0; r < boardSize_; ++r)
   {
     RowT &boardRow = board_[r];
-    boardRow.resize(numRows_);
+    boardRow.resize(boardSize_);
   }
 
   resetBoard();
@@ -36,9 +36,9 @@ SudokuBoard::SudokuBoard(int numRows /*= DEFAULT_ROWS*/) :
 
 bool SudokuBoard::isRangeValid(int row, int col) const
 {
-  if(row > numRows_ || row < 0)
+  if(row > boardSize_ || row < 0)
   {
-    cout << "ERROR, out of range board row access: [0.." << numRows_
+    cout << "ERROR, out of range board row access: [0.." << boardSize_
          << "] for row=" << row
          << endl;
 
@@ -46,9 +46,9 @@ bool SudokuBoard::isRangeValid(int row, int col) const
     return false;
   }
 
-  if(col > numRows_ || col < 0)
+  if(col > boardSize_ || col < 0)
   {
-    cout << "ERROR, out of range board column access: [0.." << numRows_
+    cout << "ERROR, out of range board column access: [0.." << boardSize_
          << "] for col=" << col
          << endl;
 
@@ -78,7 +78,7 @@ void SudokuBoard::setValue(int row, int col, int value)
     return;
   }
 
-  if(value > numRows_ || value < 0)
+  if(value > boardSize_ || value < 0)
   {
     cout << "Invalid value: " << value << endl;
     return;
@@ -90,10 +90,10 @@ void SudokuBoard::setValue(int row, int col, int value)
 
 void SudokuBoard::resetBoard()
 {
-  for(int row = 0; row < numRows_; ++row)
+  for(int row = 0; row < boardSize_; ++row)
   {
     RowT &boardRow = board_[row];
-    for(int col = 0; col < numRows_; ++col)
+    for(int col = 0; col < boardSize_; ++col)
     {
       boardRow[col] = 0;
     }
@@ -118,7 +118,7 @@ void SudokuBoard::getColData(int col, std::vector<int> &colData) const
     return;
   }
 
-  for(int row = 0; row < numRows_; ++row)
+  for(int row = 0; row < boardSize_; ++row)
   {
     colData[row] = getValue(row, col);
   }
@@ -134,7 +134,7 @@ void SudokuBoard::getSquareData(int row, int col, std::vector<int> &squareData) 
   }
 
   int rowStart;
-  for(int r = squareSize_; r <= numRows_; r += squareSize_)
+  for(int r = squareSize_; r <= boardSize_; r += squareSize_)
   {
     if(row < r)
     {
@@ -144,7 +144,7 @@ void SudokuBoard::getSquareData(int row, int col, std::vector<int> &squareData) 
   }
 
   int colStart;
-  for(int c = squareSize_; c <= numRows_; c += squareSize_)
+  for(int c = squareSize_; c <= boardSize_; c += squareSize_)
   {
     if(col < c)
     {
@@ -167,19 +167,19 @@ void SudokuBoard::printBoard() const
 {
   cout << endl;
 
-  for(int row = 0; row < numRows_; ++row)
+  for(int row = 0; row < boardSize_; ++row)
   {
     const RowT &boardRow = board_[row];
-    for(int col = 0; col < numRows_; ++col)
+    for(int col = 0; col < boardSize_; ++col)
     {
       cout << boardRow[col] << " ";
-      if((col+1)%squareSize_ == 0 && (col+1) < numRows_)
+      if((col+1)%squareSize_ == 0 && (col+1) < boardSize_)
       {
     	  cout << "| ";
       }
     }
 
-    if((row+1)%squareSize_ == 0 && (row+1) < numRows_)
+    if((row+1)%squareSize_ == 0 && (row+1) < boardSize_)
     {
       cout << "\n------+-------+------";
     }

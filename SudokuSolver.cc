@@ -13,16 +13,16 @@
 
 using namespace std;
 
-bool SudokuSolver::isBoardValid(SudokuBoard &board)
+bool SudokuSolver::isBoardValid()
 {
   // First check the rows
-  for(int r = 0; r < board.getNumRows(); ++r)
+  for(int r = 0; r < board_.getBoardSize(); ++r)
   {
     // The vector values will be reset to 0 upon creation
-    vector<bool> values(board.getNumRows(), false);
-    for(int c = 0; c < board.getNumRows(); ++c)
+    vector<bool> values(board_.getBoardSize(), false);
+    for(int c = 0; c < board_.getBoardSize(); ++c)
     {
-      int value = board.getValue(r, c);
+      int value = board_.getValue(r, c);
       if(value == 0)
       {
             // '0' is empty
@@ -40,13 +40,13 @@ bool SudokuSolver::isBoardValid(SudokuBoard &board)
   }
 
   // Now check the columns
-  for(int c = 0; c < board.getNumRows(); ++c)
+  for(int c = 0; c < board_.getBoardSize(); ++c)
   {
     // The vector values will be reset to 0 upon creation
-    vector<bool> values(board.getNumRows(), false);
-    for(int r = 0; r < board.getNumRows(); ++r)
+    vector<bool> values(board_.getBoardSize(), false);
+    for(int r = 0; r < board_.getBoardSize(); ++r)
     {
-      int value = board.getValue(r, c);
+      int value = board_.getValue(r, c);
       if(value == 0)
       {
             // '0' is empty
@@ -64,13 +64,13 @@ bool SudokuSolver::isBoardValid(SudokuBoard &board)
   }
 
   // And finally in the squares
-  int squareSize = board.getNumRows()/3;
+  int squareSize = board_.getBoardSize()/3;
   for(int rowGroup = 0; rowGroup < squareSize; ++rowGroup)
   {
     for(int colGroup = 0; colGroup < squareSize; ++colGroup)
     {
       // The vector values will be reset to 0 upon creation
-      vector<bool> values(board.getNumRows(), false);
+      vector<bool> values(board_.getBoardSize(), false);
 
       // Iterate the square rows: sr
       for(int sr = rowGroup*3; sr < (rowGroup*3)+3; ++sr)
@@ -78,7 +78,7 @@ bool SudokuSolver::isBoardValid(SudokuBoard &board)
         // Iterate the square columns: sc
         for(int sc = colGroup*3; sc < (colGroup*3)+3; ++sc)
         {
-          int value = board.getValue(sr, sc);
+          int value = board_.getValue(sr, sc);
           if(value == 0)
           {
             // '0' is empty
@@ -100,42 +100,63 @@ bool SudokuSolver::isBoardValid(SudokuBoard &board)
   return true;
 }
 
-bool SudokuSolver::solve(SudokuBoard &board)
+// Orchestrates the recursion
+bool SudokuSolver::solve()
 {
-  vector<int> rowValues(board.getNumRows(), 0);
-  vector<vector<int> > colValues(board.getNumRows());
-  vector<vector<int> > squareValues(board.getNumRows());
-
-  vector<bool> rowValuesHash(board.getNumRows(), false);
-  vector<vector<bool> > colValuesHash(board.getNumRows());
-  vector<vector<bool> > squareValuesHash(board.getNumRows());
-
-  return solveRecursive(board);
+  return solveRecursive(0, 0);
 }
 
-bool SudokuSolver::solveRecursive(SudokuBoard &board)
+// Recursively solve the Sudoku
+bool SudokuSolver::solveRecursive(int row, int col)
 {
-  for(int row = 0; row < board.getNumRows(); ++row)
+  // Check if we're at the end of a row, or if we've completed the Sudoku
+  if(col == board_.getBoardSize())
   {
-/*
-    board.getRowData(row, rowValues);
-    boardDataToHash(rowValues, rowValuesHash);
-*/
-    // TODO finish this
+    // If we're at the end of a row, start at the next row
+    col = 0;
+    if(row == board_.getBoardSize())
+    {
+      // Then we've finished and a solution has been found
+      return true;
+    }
+    else
+    {
+      ++row;
+    }
   }
+
+  // Skip empty elements
+  if(board_.getValue(row, col) == 0)
+  {
+    return solveRecursive(row, col+1);
+  }
+
+  for(int value = 1; value < board_.getBoardSize(); ++value)
+  {
+    if(valueIsValid(row, col, value))
+    {
+        board_.setValue(row, col, value);
+        return solveRecursive(row, col++);
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  // TODO finish this
 
   return false;
 }
 
-void SudokuSolver::boardDataToHash(vector<int> &rowValues, vector<bool> &rowValuesHash)
+bool SudokuSolver::valueIsValid(int row, int col, int value)
 {
-  for(int i = 0; i < rowValues.size(); ++i)
+  if(!rowHasValue(row, value))
   {
-    if(rowValues[i] != 0)
-    {
-      rowValuesHash[rowValues[i]] = true;
-    }
+    return false;
   }
+
+  return true;
 }
 
 bool SudokuSolver::rowHasValue(int row, int value)

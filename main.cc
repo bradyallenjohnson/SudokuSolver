@@ -79,8 +79,8 @@ int main(int argc, char **argv)
   cout << "Sudoku input" << endl;
   board.printBoard();
 
-  SudokuSolver solver;
-  if(solver.isBoardValid(board))
+  SudokuSolver solver(board);
+  if(solver.isBoardValid())
   {
     cout << "The input board is valid" << endl;
   }
@@ -90,5 +90,12 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  solver.solve(board);
+  if(solver.solve())
+  {
+      cout << "The input board has been solved" << endl;
+  }
+  else
+  {
+      cout << "Its not possible to solve the input board" << endl;
+  }
 }
