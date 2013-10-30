@@ -31,8 +31,8 @@ bool SudokuSolver::isBoardValid()
       if(values[value])
       {
         cout << "Invalid Sudoku Board: value=" << value
-                   << " in position [" << r << ", " << c
-                   << "] has already been set in this row" << endl;
+             << " in position [" << r << ", " << c
+             << "] has already been set in this row" << endl;
         return false;
       }
       values[value] = true;
@@ -55,8 +55,8 @@ bool SudokuSolver::isBoardValid()
       if(values[value])
       {
         cout << "Invalid Sudoku Board: value=" << value
-                   << " in position [" << r << ", " << c
-                   << "] has already been set in this column" << endl;
+             << " in position [" << r << ", " << c
+             << "] has already been set in this column" << endl;
         return false;
       }
       values[value] = true;
@@ -64,19 +64,18 @@ bool SudokuSolver::isBoardValid()
   }
 
   // And finally in the squares
-  int squareSize = board_.getBoardSize()/3;
-  for(int rowGroup = 0; rowGroup < squareSize; ++rowGroup)
+  for(int rowGroup = 0; rowGroup < board_.getSquareSize(); ++rowGroup)
   {
-    for(int colGroup = 0; colGroup < squareSize; ++colGroup)
+    for(int colGroup = 0; colGroup < board_.getSquareSize(); ++colGroup)
     {
       // The vector values will be reset to 0 upon creation
       vector<bool> values(board_.getBoardSize(), false);
 
       // Iterate the square rows: sr
-      for(int sr = rowGroup*3; sr < (rowGroup*3)+3; ++sr)
+      for(int sr = rowGroup*board_.getSquareSize(); sr < (rowGroup*board_.getSquareSize())+board_.getSquareSize(); ++sr)
       {
         // Iterate the square columns: sc
-        for(int sc = colGroup*3; sc < (colGroup*3)+3; ++sc)
+        for(int sc = colGroup*board_.getSquareSize(); sc < (colGroup*board_.getSquareSize())+board_.getSquareSize(); ++sc)
         {
           int value = board_.getValue(sr, sc);
           if(value == 0)
@@ -87,8 +86,8 @@ bool SudokuSolver::isBoardValid()
           if(values[value])
           {
             cout << "Invalid Sudoku Board: value=" << value
-                   << " in position [" << sr << ", " << sc
-                   << "] has already been set in this column" << endl;
+                 << " in position [" << sr << ", " << sc
+                 << "] has already been set in this square" << endl;
             return false;
           }
           values[value] = true;
@@ -151,7 +150,17 @@ bool SudokuSolver::solveRecursive(int row, int col)
 
 bool SudokuSolver::valueIsValid(int row, int col, int value)
 {
-  if(!rowHasValue(row, value))
+  if(rowHasValue(row, value))
+  {
+    return false;
+  }
+
+  if(colHasValue(col, value))
+  {
+    return false;
+  }
+
+  if(!squareHasValue(row, col, value))
   {
     return false;
   }

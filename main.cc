@@ -15,8 +15,6 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  SudokuBoard board(9);
-
   // 'x' means its empty
   //
   // Sample input                    Answer
@@ -36,6 +34,8 @@ int main(int argc, char **argv)
   //   +----------------------
   //     0 1 2 | 3 4 5 | 6 7 8
   //
+/*
+  SudokuBoard board(9);
 
   board.setValue(0, 0, 5);
   board.setValue(0, 1, 3);
@@ -75,11 +75,39 @@ int main(int argc, char **argv)
   board.setValue(8, 4, 8);
   board.setValue(8, 7, 7);
   board.setValue(8, 8, 9);
+*/
+  //
+  // Sample input        Answer
+  //     0 1 | 2 3
+  //   +-----------
+  // 0 | 1 2 | x 4       1 2 | 3 4
+  // 1 | 3 x | 1 2       3 4 | 1 2
+  //   +-----+-----     -----+-----
+  // 2 | x 1 | x x       2 1 | 4 3
+  // 3 | 4 x | x 1       4 3 | 2 1
+
+  SudokuBoard board(4);
+
+  board.setValue(0, 0, 1);
+  board.setValue(0, 1, 2);
+  board.setValue(0, 3, 4);
+
+  board.setValue(1, 0, 3);
+  board.setValue(1, 2, 1);
+  board.setValue(1, 3, 2);
+
+  board.setValue(2, 1, 1);
+
+  board.setValue(3, 0, 4);
+  board.setValue(3, 3, 1);
+
 
   cout << "Sudoku input" << endl;
   board.printBoard();
 
   SudokuSolver solver(board);
+
+  // check if the input is valid
   if(solver.isBoardValid())
   {
     cout << "The input board is valid" << endl;
@@ -90,8 +118,10 @@ int main(int argc, char **argv)
     return 1;
   }
 
+  // Now try to solve it
   if(solver.solve())
   {
+      board.printBoard();
       cout << "The input board has been solved" << endl;
   }
   else

@@ -181,6 +181,7 @@ void SudokuBoard::printBoard() const
 
     if((row+1)%squareSize_ == 0 && (row+1) < boardSize_)
     {
+      // TODO fix this to reflect the real size of the board, now its for a 9x9
       cout << "\n------+-------+------";
     }
     cout << endl;
