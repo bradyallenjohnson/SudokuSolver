@@ -13,6 +13,23 @@
 
 using namespace std;
 
+SudokuSolver::SudokuSolver(SudokuBoard &board) :
+    board_(board)
+{
+  // used in squareHasValue()
+  squarePositionHash_.resize(board_.getBoardSize());
+  int squarePosition(0);
+  for(int i = 0; i < board_.getBoardSize(); ++ i)
+  {
+    if(i % board_.getSquareSize() == 0 && i != 0)
+    {
+        squarePosition += board_.getSquareSize();
+    }
+
+    squarePositionHash_[i] = squarePosition;
+  }
+}
+
 bool SudokuSolver::isBoardValid()
 {
   // First check the rows
@@ -108,8 +125,6 @@ bool SudokuSolver::solve()
 // Recursively solve the Sudoku
 bool SudokuSolver::solveRecursive(int row, int col)
 {
-  cout << "solveRecursive [" << row << ", " << col << "]" << endl;
-
   // Check if we're at the end of a row, or if we've completed the Sudoku
   if(col == board_.getBoardSize())
   {
@@ -118,20 +133,19 @@ bool SudokuSolver::solveRecursive(int row, int col)
     if(row == board_.getBoardSize()-1)
     {
       // Then we've finished and a solution has been found
-      cout << "solveRecursive Board finished" << endl;
       return true;
     }
     else
     {
       ++row;
     }
-    cout << "solveRecursive end of row, reset coords [" << row << ", " << col << "]" << endl;
+    //cout << "solveRecursive end of row, reset coords [" << row << ", " << col << "]" << endl;
   }
 
   // Skip already filled-in elements
   if(board_.getValue(row, col) != 0)
   {
-    cout << "solveRecursive [" << row << ", " << col << "] skipping filled-in value" << endl;
+    //cout << "solveRecursive [" << row << ", " << col << "] skipping filled-in value" << endl;
 
     return solveRecursive(row, col+1);
   }
@@ -140,7 +154,7 @@ bool SudokuSolver::solveRecursive(int row, int col)
   {
     if(valueIsValid(row, col, value))
     {
-      cout << "solveRecursive [" << row << ", " << col << "] valid value " << value << endl;
+      //cout << "solveRecursive [" << row << ", " << col << "] valid value " << value << endl;
 
       board_.setValue(row, col, value);
 
@@ -154,7 +168,7 @@ bool SudokuSolver::solveRecursive(int row, int col)
     }
   }
 
-  cout << "solveRecursive end [" << row << ", " << col << "]" << endl;
+  //cout << "solveRecursive end [" << row << ", " << col << "]" << endl;
   board_.setValue(row, col, 0);
   return false;
 }
@@ -210,31 +224,14 @@ bool SudokuSolver::squareHasValue(int row, int col, int value)
   // TODO consider storing the rowStart and colStart in a hash table
   //      where the offset will return the rowStart
 
-  int rowStart;
-  for(int r = board_.getSquareSize(); r <= board_.getBoardSize(); r += board_.getSquareSize())
-  {
-    if(row < r)
-    {
-      rowStart = r;
-      break;
-    }
-  }
-
-  int colStart;
-  for(int c = board_.getSquareSize(); c <= board_.getBoardSize(); c += board_.getSquareSize())
-  {
-    if(col < c)
-    {
-      colStart = c;
-      break;
-    }
-  }
+  int rowStart = squarePositionHash_[row];
+  int colStart = squarePositionHash_[col];
 
   for(int r = rowStart; r < rowStart+board_.getSquareSize(); ++r)
   {
     for(int c = colStart; c < colStart+board_.getSquareSize(); ++c)
     {
-      if(board_.getValue(row, col) == value)
+      if(board_.getValue(r, c) == value)
       {
         return true;
       }

@@ -41,12 +41,11 @@ public:
 
   // Print the board to stdout, '0' is an empty position
   void printBoard() const;
+  bool isRangeValid(int row, int col) const;
 
 private:
   int boardSize_;
   int squareSize_;
-
-  bool isRangeValid(int row, int col) const;
 
   typedef std::vector<int> RowT;
   std::vector<std::vector<int> > board_;

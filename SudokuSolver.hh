@@ -15,14 +15,14 @@
 class SudokuSolver
 {
 public:
-  SudokuSolver(SudokuBoard &board) : board_(board)  {}
+  SudokuSolver(SudokuBoard &board);
   ~SudokuSolver() {}
 
   // Checks that no values are repeated in the rows, columns, and squares
   bool isBoardValid();
   bool solve();
 
-private:
+protected:
   SudokuSolver(); // explicitly disallowing the default ctor
 
   bool solveRecursive(int row, int col);
@@ -33,6 +33,7 @@ private:
   bool squareHasValue(int row, int col, int value);
 
   SudokuBoard &board_;
+  std::vector<int> squarePositionHash_;
 };
 
 #endif /* SUDOKUSOLVER_HH_ */
