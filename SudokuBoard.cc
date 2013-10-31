@@ -104,6 +104,8 @@ void SudokuBoard::printBoard() const
 {
   cout << endl;
 
+  //cout << "(\'0\' is an empty position)" << endl;
+
   for(int row = 0; row < boardSize_; ++row)
   {
     const RowT &boardRow = board_[row];

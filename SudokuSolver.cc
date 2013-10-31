@@ -23,7 +23,7 @@ SudokuSolver::SudokuSolver(SudokuBoard &board) :
   {
     if(i % board_.getSquareSize() == 0 && i != 0)
     {
-        squarePosition += board_.getSquareSize();
+      squarePosition += board_.getSquareSize();
     }
 
     squarePositionHash_[i] = squarePosition;
@@ -42,8 +42,8 @@ bool SudokuSolver::isBoardValid()
       int value = board_.getValue(r, c);
       if(value == 0)
       {
-            // '0' is empty
-            continue;
+        // '0' is empty
+        continue;
       }
       if(values[value])
       {
@@ -66,8 +66,8 @@ bool SudokuSolver::isBoardValid()
       int value = board_.getValue(r, c);
       if(value == 0)
       {
-            // '0' is empty
-            continue;
+        // '0' is empty
+        continue;
       }
       if(values[value])
       {
@@ -139,14 +139,11 @@ bool SudokuSolver::solveRecursive(int row, int col)
     {
       ++row;
     }
-    //cout << "solveRecursive end of row, reset coords [" << row << ", " << col << "]" << endl;
   }
 
-  // Skip already filled-in elements
+  // Skip already filled-in positions
   if(board_.getValue(row, col) != 0)
   {
-    //cout << "solveRecursive [" << row << ", " << col << "] skipping filled-in value" << endl;
-
     return solveRecursive(row, col+1);
   }
 
@@ -154,8 +151,6 @@ bool SudokuSolver::solveRecursive(int row, int col)
   {
     if(valueIsValid(row, col, value))
     {
-      //cout << "solveRecursive [" << row << ", " << col << "] valid value " << value << endl;
-
       board_.setValue(row, col, value);
 
       // If the value is valid, recurse down, else loop to the next value
@@ -168,8 +163,6 @@ bool SudokuSolver::solveRecursive(int row, int col)
     }
   }
 
-  //cout << "solveRecursive end [" << row << ", " << col << "]" << endl;
-  board_.setValue(row, col, 0);
   return false;
 }
 
@@ -221,9 +214,6 @@ bool SudokuSolver::colHasValue(int col, int value)
 
 bool SudokuSolver::squareHasValue(int row, int col, int value)
 {
-  // TODO consider storing the rowStart and colStart in a hash table
-  //      where the offset will return the rowStart
-
   int rowStart = squarePositionHash_[row];
   int colStart = squarePositionHash_[col];
 
